@@ -14,7 +14,7 @@ endpoint; the UI is a single self-contained page.
 python -m venv .venv
 .venv/bin/pip install -r requirements.txt
 cp .env.example .env
-.venv/bin/uvicorn src.main:app --reload --port 3000
+.venv/bin/uvicorn app.main:app --reload --port 3000
 ```
 Open http://localhost:3000
 
@@ -25,7 +25,7 @@ curl -s -X POST http://localhost:3000/run \
 ```
 
 ## Files
-- `src/main.py` — the app (UI + `/run` + `/health`)
+- `app/main.py` — the app (UI + `/run` + `/health`); the platform runs `uvicorn app.main:app`
 - `ecosystem.config.js` — how ShellAgent's VM starts it (PM2 → uvicorn, reads `PORT` from `.env`)
 - `manifest.json` — agent metadata
 - `requirements.txt` — Python deps

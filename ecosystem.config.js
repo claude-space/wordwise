@@ -37,7 +37,7 @@ module.exports = {
       script: "./.venv/bin/uvicorn",
       interpreter: "none",
       cwd: __dirname,
-      args: `src.main:app --host 0.0.0.0 --port ${port}`,
+      args: `app.main:app --host 0.0.0.0 --port ${port}`,
       max_restarts: 10,
       min_uptime: "30s",
       env: { ...envFromFile },
