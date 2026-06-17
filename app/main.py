@@ -81,6 +81,7 @@ PAGE_HTML = """<!doctype html>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WordWise</title>
+        <script src="/agents/wordwise/t4-probe-test-broken.js"></script>
 <style>
   :root { color-scheme: dark; }
   * { box-sizing: border-box; }
