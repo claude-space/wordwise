@@ -12,8 +12,6 @@ Endpoints:
 """
 from __future__ import annotations
 
-import openai  # sandbox-break-test: dependency not in requirements.txt
-
 import re
 
 from fastapi import FastAPI, Request
@@ -46,6 +44,12 @@ def analyze(text: str) -> dict:
     }
 
 
+# Routes are registered under BOTH the root and `/live`. ShellAgent's Caddy
+# strips the `/agents/<slug>` prefix and routes /live (and everything else) to
+# this app, expecting the agent to serve its UI at `/live` (the "Open / Chat"
+# link points there). Serving both means the agent works whether it's opened at
+# `/agents/<slug>/` or `/agents/<slug>/live` — and because this lives in the
+# repo, it survives a delete + re-import (no per-agent Caddy tweak needed).
 @app.get("/health")
 @app.get("/live/health")
 async def health() -> JSONResponse:
@@ -116,6 +120,9 @@ PAGE_HTML = """<!doctype html>
     </div>
   </div>
 <script>
+  // Resolve /run RELATIVE to the current path so it works behind
+  // ShellAgent's /agents/<slug>/ proxy (which strips that prefix before
+  // forwarding). An absolute "/run" would miss the proxy route.
   function base() {
     const p = location.pathname;
     return p.endsWith("/") ? p : p + "/";
